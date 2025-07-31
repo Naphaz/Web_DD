@@ -15,7 +15,7 @@
     <pre>
             &lt;?php
                 echo "Hello World";
-            ?&gt;
+            ?&gt;   
         </pre>
     <h3>Result</h3>
     <div style="color: blue;">
@@ -29,10 +29,10 @@
         <li><a href="W01-0-introPHP.php">Intro PHP</a></li>
         <li><a href="W02_01_oodEvenNumber.php">Odd-Even-Number</a></li>
         <li><a href="W02_02_grade.php">Calculate Grade</a></li>
-        <li><a href="HW02_calmon.php">Calculate sale</a></li>
+        <li><a href="HW02_calmon.php">Calculate sale</a></li>   
         <li><a href="W06_01_loopProduct.php">Show Product (fix data)</a></li>
-        <li><a href="">Connect Database</a></li>
-        <li><a href="">Show Product (From Database)</a></li>
+        <li><a href="W07_01_connectDB.php">Connect Database</a></li>
+        <li><a href="W07_02_fetchData.php">Fetch Data</a></li>
     </ul>
 
 </body>

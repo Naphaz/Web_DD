@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,7 +120,7 @@
             <div class="user-info">
                 <p>
                     <i class="fas fa-user me-2"></i>
-                    ผู้ใช้ : [Username] ([Role])
+                    <p>ผู้ใช้ : <?=htmlspecialchars($_SESSION['username']) ?>(<?= $_SESSION['role']?>) </p>
                 </p>
             </div>
             

@@ -20,47 +20,83 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #ff6b9d, #ffc0cb, #ff8fab, #ffb3c1);
-            min-height: 100vh;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
         }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255,182,193,0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255,105,180,0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255,20,147,0.2) 0%, transparent 50%);
-            pointer-events: none;
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        h1 {
-            color: #c53030;
-            font-weight: 600;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
-        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-success {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            transition: background-color 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+        .btn-primary {
+            background-color: #3f51b5;
+            border-color: #3f51b5;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #303f9f;
+            border-color: #303f9f;
+        }
+        .btn-outline-primary {
+            border-color: #3f51b5;
+            color: #3f51b5;
+        }
+        .btn-outline-primary:hover {
+            background-color: #3f51b5;
+            color: white;
+        }
+        .success-message {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000;
+        }
+        .success-message.show {
+            opacity: 1;
+        }
         @media (max-width: 768px) {
-            .welcome-card {
-                padding: 2rem;
-                margin: 1rem;
-            }
-            
             h1 {
                 font-size: 1.8rem;
-            }
-            
-            .user-info p {
-                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body class="container mt-4">
+    <div id="success-message" class="success-message">
+        <i class="fa-solid fa-check-circle mr-2"></i>เพิ่มสินค้าลงในตะกร้าแล้ว!
+    </div>
+    
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>รายการสินค้า</h1>
             <div>
@@ -87,7 +123,7 @@
                                 <p class="card-text"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
                                     <p><strong>ราคา:</strong> <?= number_format($product['price'], 2) ?> บาท</p>
                                         <?php if ($isLoggedIn): ?>
-                                            <form action="cart.php" method="post" class="d-inline">
+                                            <form action="cart.php" method="post" class="d-inline" onsubmit="showSuccessMessage(event)">
                                                 <input type="hidden" name="product_id" value="<?= $product['product_id']?>">
                                                 <input type="hidden" name="quantity" value="1">
                                                 <button type="submit" class="btn btn-sm btn-success">เพิ่มในตะกร้า</button>
@@ -103,5 +139,16 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showSuccessMessage(event) {
+            event.preventDefault();
+            const message = document.getElementById('success-message');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+                event.target.submit();
+            }, 2000);
+        }
+    </script>
 </body>
 </html>

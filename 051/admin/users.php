@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once '../config.php';
 require_once 'auth_admin.php';
 
@@ -28,6 +28,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background: linear-gradient(135deg, #ff6b6b, #ee5a52);
@@ -108,9 +110,15 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= $user['created_at'] ?></td>
                         <td>
                             <a href="edit_user.php?id=<?= $user['user_id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> แก้ไข</a>
-                            <a href="#" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-user-id="<?= $user['user_id'] ?>">
+                            <!-- <a href="#" class="btn btn-sm btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-user-id="<?= $user['user_id'] ?>">
                                 <i class="fas fa-trash-alt"></i> ลบ
-                            </a>
+                            </a> -->
+                            <form action="del_sweet.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="u_id" value="<?php echo $user['user_id']; ?>">
+                                <button type="button" class="delete-button btn btn-danger btn-sm " data-user-id="<?php echo
+                                $user['user_id']; ?>">ลบ</button>
+                            </form>
+
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -158,5 +166,42 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             let table = new DataTable('#productTable');
         });
     </script>
+
+    <script>
+        // ฟังกช์ นั ส ำหรับแสดงกลอ่ งยนื ยัน SweetAlert2
+        function showDeleteConfirmation(userId) {
+            Swal.fire({
+            title: 'คุณแน่ใจหรือไม่?',
+            text: 'คุณจะไม่สามารถเรียกข้อมูลกลับได้!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ลบ',
+            cancelButtonText: 'ยกเลิก',
+            }).then((result) => {
+            if (result.isConfirmed) {
+            // หำกผใู้ชย้นื ยัน ใหส้ ง่ คำ่ ฟอรม์ ไปยัง delete.php เพื่อลบข ้อมูล
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'delUser_Sweet.php';
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'u_id';
+            input.value = userId;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            }
+            });
+            }
+            // แนบตัวตรวจจับเหตุกำรณ์คลิกกับองค์ปุ ่่มลบทั ่ ้งหมดที่มีคลำส delete-button
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+            const userId = button.getAttribute('data-user-id');
+            showDeleteConfirmation(userId);
+            });
+        });
+    </script>
+
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once '../config.php';
 require_once 'auth_admin.php';
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -108,7 +108,7 @@ exit;
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body text-center">
-                                <a href="categories.php" class="btn btn-dark w-100"><i class="fas fa-sitemap me-2"></i>จัดการหมวดหมู่</a>
+                                <a href="category.php" class="btn btn-dark w-100"><i class="fas fa-sitemap me-2"></i>จัดการหมวดหมู่</a>
                             </div>
                         </div>
                     </div>

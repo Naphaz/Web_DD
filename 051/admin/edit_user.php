@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config.php';    // TODO-1: เชอื่ มตอ่ ฐำนขอ้ มลู ดว้ย PDO
+require_once '../config.php';// TODO-1: เชอื่ มตอ่ ฐำนขอ้ มลู ดว้ย PDO
 require_once 'auth_admin.php'; // TODO-2: กำรด์ สทิ ธิ์(Admin Guard)
 
 
@@ -118,41 +118,83 @@ $user['email'] = $email;
 <meta charset="UTF-8">
 <title>แก้ไขสมาชิก</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    body {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        background-size: 400% 400%;
+        animation: gradient-animation 15s ease infinite;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+    @keyframes gradient-animation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    .card {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transition: background-color 0.3s ease;
+    }
+    .btn-secondary:hover {
+        background-color: #5c636a;
+        border-color: #565e64;
+    }
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+</style>
 </head>
 <body class="container mt-4">
-    <h2>แก้ไขข้อมูลสมาชิก</h2>
-    <a href="users.php" class="btn btn-secondary mb-3">← กลับหน้ารายชื่อสมาชิก</a>
-    <?php if (isset($error)): ?>
-    <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
-    <form method="post" class="row g-3">
-    <div class="col-md-6">
-    <label class="form-label">ชื่อผู้ใช้</label> 
-    <input type="text" name="username" class="form-control" required value="<?=
-    htmlspecialchars($user['username']) ?>">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4"><i class="fas fa-user-edit me-2"></i>แก้ไขข้อมูลสมาชิก</h2>
+        <a href="users.php" class="btn btn-secondary mb-3"><i class="fas fa-arrow-left me-1"></i>กลับหน้ารายชื่อสมาชิก</a>
+        <?php if (isset($error)): ?>
+        <div class="alert alert-danger"><i class="fas fa-exclamation-circle me-2"></i><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+        <form method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">ชื่อผู้ใช้</label> 
+                <input type="text" name="username" class="form-control" required value="<?= htmlspecialchars($user['username']) ?>">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">ชื่อ - นามสกุล</label>
+                <input type="text" name="full_name" class="form-control" value="<?= htmlspecialchars($user['full_name']) ?>">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">อีเมล</label>
+                <input type="email" name="email" class="form-control" required value="<?= htmlspecialchars($user['email']) ?>">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>บันทึกการแก้ไข</button>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label class="form-label">รหัสผ่านใหม่ <small class="text-muted">(ถ้าไม่ต้องการเปลี่ยนให้เว้นว่าง)</small></label>
+                <input type="password" name="password" class="form-control">
+            </div>
+            <div class="col-md-6 mt-3">
+                <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                <input type="password" name="confirm_password" class="form-control">
+            </div>
+        </form>
     </div>
-    <div class="col-md-6">
-    <label class="form-label">ชื่อ - นามสกุล</label>
-    <input type="text" name="full_name" class="form-control" value="<?=
-    htmlspecialchars($user['full_name']) ?>">
-    </div>
-    <div class="col-md-6">
-    <label class="form-label">อีเมล</label>
-    <input type="email" name="email" class="form-control" required value="<?=
-    htmlspecialchars($user['email']) ?>">
-    </div>
-    <div class="col-12">
-    <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
-    </div>
-    <div class="col-md-6">
-    <label class="form-label">รหัสผ่านใหม่ <small class="text-muted">(ถ้าไม่ต้องการเปลี่ยนให้เว้นว่าง)
-    </small></label>
-    <input type="password" name="password" class="form-control">
-    </div>
-    <div class="col-md-6">
-    <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
-    <input type="password" name="confirm_password" class="form-control">
-    </div>
-    </form>
 </body>
 </html>

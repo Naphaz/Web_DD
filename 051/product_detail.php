@@ -13,6 +13,11 @@
     WHERE p.product_id = ?");
     $stmt->execute([$product_id]);
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $img = !empty($product['image'])
+        ? 'product_images/' . rawurlencode($product['image'])
+        : 'product_images/no-image.jpg';
+
 ?>
 <!DOCTYPE html>
 <html lang="th">
@@ -89,6 +94,7 @@
                     <i class="fas fa-arrow-left me-1"></i>กลับ
                 </a>
                 <div class="card shadow-lg">
+                    <img src="<?= $img ?>" alt="">
                     <div class="card-header text-center text-white py-4">
                         <i class="fas fa-box fa-2x mb-2"></i>
                         <h2 class="mb-0"><?= htmlspecialchars($product['product_name'])?></h2>

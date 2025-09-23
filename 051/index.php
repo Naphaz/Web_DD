@@ -206,7 +206,7 @@
         </div>
         <!-- TODO====div for price ==== -->
         <div class="price mb-3">
-        <?= number_format((float)$p['price'], 2) ?> บำท
+        <?= number_format((float)$p['price'], 2) ?> บาท
         </div>
         <!-- TODO====div for button check login ==== -->
         <div class="mt-auto d-flex gap-2">
@@ -214,13 +214,13 @@
         <form action="cart.php" method="post" class="d-inline-flex gap-2">
         <input type="hidden" name="product_id" value="<?= (int)$p['product_id'] ?>">
         <input type="hidden" name="quantity" value="1">
-        <button type="submit" class="btn btn-sm btn-success">เพิ่มในตะกร ้ำ</button>
+        <button type="submit" class="btn btn-sm btn-success">เพิ่มในตะกร้า</button>
         </form>
         <?php else: ?>
         <small class="text-muted">เข้าสู่ระบบเพื่อสั่งซื้อ</small>
         <?php endif; ?>
         <a href="product_detail.php?id=<?= (int)$p['product_id'] ?>"
-        class="btn btn-sm btn-outline-primary ms-auto">ดูรำยละเอียด</a>
+        class="btn btn-sm btn-outline-primary ms-auto">ดูรายละเอียด</a>
         </div>
         </div>
         </div>

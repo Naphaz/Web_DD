@@ -56,6 +56,36 @@
             border-top-left-radius: 20px !important;
             border-top-right-radius: 20px !important;
             color: white;
+            padding: 2rem !important;
+            position: relative;
+        }
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        .product-image-container {
+            width: 250px; /* ปรับขนาดความกว้างให้ใหญ่ขึ้น */
+            height: 250px; /* ปรับขนาดความสูงให้ใหญ่ขึ้น */
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .btn-outline-danger {
             border-color: #dc3545;
@@ -94,20 +124,23 @@
                     <i class="fas fa-arrow-left me-1"></i>กลับ
                 </a>
                 <div class="card shadow-lg">
-                    <img src="<?= $img ?>" alt="">
                     <div class="card-header text-center text-white py-4">
-                        <i class="fas fa-box fa-2x mb-2"></i>
+                        <div class="product-image-container mb-3">
+                            <img src="<?= $img ?>" class="product-image" alt="Product Image">
+                        </div>
                         <h2 class="mb-0"><?= htmlspecialchars($product['product_name'])?></h2>
                     </div>
                     <div class="card-body p-4">
-                        <span class="badge bg-secondary mb-3">
-                            <i class="fas fa-tag me-1"></i><?= htmlspecialchars($product['category_name'])?>
-                        </span>
+                        <div class="d-flex justify-content-center mb-3">
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-tag me-1"></i><?= htmlspecialchars($product['category_name'])?>
+                            </span>
+                        </div>
                         
-                        <p class="mb-4"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
+                        <p class="text-center mb-4"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
                         
-                        <div class="row mb-4">
-                            <div class="col-md-6">
+                        <div class="row text-center mb-4">
+                            <div class="col-md-6 mb-2 mb-md-0">
                                 <h4 class="text-success">
                                     <i class="fas fa-money-bill me-2"></i><?= number_format($product['price'], 2)?> บาท
                                 </h4>
@@ -120,23 +153,19 @@
                         </div>
 
                         <?php if ($isLoggedIn): ?>
-                            <form action="cart.php" method="post" class="mb-3">
+                            <form action="cart.php" method="post" class="mb-3 d-flex justify-content-center align-items-end flex-wrap gap-2">
                                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label for="quantity" class="form-label">จำนวน</label>
-                                        <input type="number" name="quantity" id="quantity" class="form-control" 
-                                                value="1" min="1" max="<?= $product['stock'] ?>" required>
-                                    </div>
-                                    <div class="col-md-9 d-flex align-items-end">
-                                        <button type="submit" class="btn btn-success btn-lg">
-                                            <i class="fas fa-cart-plus me-1"></i>เพิ่มในตะกร้า
-                                        </button>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="quantity" class="form-label text-center">จำนวน</label>
+                                    <input type="number" name="quantity" id="quantity" class="form-control" 
+                                            value="1" min="1" max="<?= $product['stock'] ?>" required style="width: 80px;">
                                 </div>
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-cart-plus me-1"></i>เพิ่มในตะกร้า
+                                </button>
                             </form>
                         <?php else: ?>
-                            <div class="alert alert-info">
+                            <div class="alert alert-info text-center">
                                 <i class="fas fa-info-circle me-2"></i>กรุณาเข้าสู่ระบบเพื่อสั่งซื้อ
                                 <a href="login.php" class="btn btn-primary btn-sm ms-2">เข้าสู่ระบบ</a>
                             </div>
